@@ -37,7 +37,7 @@ public class InMemoryTimeEntryRepositoryTest {
     public void list() throws Exception {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
         repo.create(new TimeEntry(1L, 123L, 456L, LocalDate.parse("2017-01-08"), 8));
-        repo.create(new TimeEntry(1L, 789L, 654L, LocalDate.parse("2017-01-07"), 4));
+        repo.create(new TimeEntry(2L, 789L, 654L, LocalDate.parse("2017-01-07"), 4));
 
         List<TimeEntry> expected = asList(
                 new TimeEntry(1L, 123L, 456L, LocalDate.parse("2017-01-08"), 8),
@@ -66,6 +66,6 @@ public class InMemoryTimeEntryRepositoryTest {
         TimeEntry created = repo.create(new TimeEntry(1L, 123L, 456L, LocalDate.parse("2017-01-08"), 8));
 
         repo.delete(created.getId());
-        assertThat(repo.list()).isFalse(); //Changed from orginal template
+        assertThat(repo.list()).isEmpty();
     }
 }

@@ -1,18 +1,48 @@
 package io.pivotal.pal.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TimeEntryRepository {
-    public void create(TimeEntry any) {
+
+    List<TimeEntry> localRepo = new ArrayList<>();
+
+    public  TimeEntryRepository() {
     }
 
-    public void find(long l) {
+    public TimeEntry create(TimeEntry any) {
+        localRepo.add(any);
+        return any;
     }
 
-    public void list() {
+    public TimeEntry find(long id) {
+        for (TimeEntry t : this.localRepo) {
+            if(t.getId() == id){
+                return t;
+            }
+        }
+        return null;
     }
 
-    public void update(long eq, TimeEntry any) {
+    public TimeEntry update(long id, TimeEntry timeEntry) {
+        TimeEntry temp = this.find(id);
+        int index = this.localRepo.indexOf(temp);
+        this.localRepo.set(index, timeEntry);
+        return this.localRepo.get(index);
+
     }
 
-    public void delete(long l) {
+    public void delete(long id) {
+        TimeEntry temp = this.find(id);
+        int index = this.localRepo.indexOf(temp);
+        this.localRepo.remove(index);
+    }
+
+    public List<TimeEntry> list() {
+        return localRepo;
+    }
+
+    public void setLocalRepo(List<TimeEntry> localRepo) {
+        this.localRepo = localRepo;
     }
 }
