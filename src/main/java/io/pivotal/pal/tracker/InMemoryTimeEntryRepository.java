@@ -1,11 +1,9 @@
 package io.pivotal.pal.tracker;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryTimeEntryRepository {
-
+public class InMemoryTimeEntryRepository implements TimeEntryRepository{
 
     List<TimeEntry> timeEntryList = new ArrayList<>();
 
@@ -14,13 +12,30 @@ public class InMemoryTimeEntryRepository {
         return timeEntry;
     }
 
-    public TimeEntry find(Long id) {
+    public TimeEntry find(long id) {
         for (TimeEntry t : this.timeEntryList) {
             if(t.getId() == id){
                 return t;
             }
         }
         return null;
+    }
+
+    public TimeEntry update(long id, TimeEntry timeEntry) {
+        TimeEntry temp = this.find(id);
+
+        if(temp != null) {
+            int index = this.timeEntryList.indexOf(temp);
+            this.timeEntryList.set(index, timeEntry);
+            return this.timeEntryList.get(index);
+        }
+        return null;
+    }
+
+    public void delete(long id){
+        TimeEntry temp = this.find(id);
+        int index = this.timeEntryList.indexOf(temp);
+        this.timeEntryList.remove(index);
     }
 
     @Override
@@ -58,7 +73,7 @@ public class InMemoryTimeEntryRepository {
         return timeEntryList;
     }
 
-    public void setTimeEntryList(List<TimeEntry> timeEntryList) {
+    public void setLocalRepo(List<TimeEntry> timeEntryList) {
         this.timeEntryList = timeEntryList;
     }
 

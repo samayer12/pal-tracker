@@ -1,14 +1,18 @@
 package io.pivotal.pal.tracker;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
 public class TimeEntryController {
 
-    private TimeEntryRepository localRepo = new TimeEntryRepository();
+    private TimeEntryRepository localRepo;
 
+    @Autowired
     public TimeEntryController(TimeEntryRepository repo){
         this.localRepo = repo;
     }
@@ -33,13 +37,11 @@ public class TimeEntryController {
     }
 
     public ResponseEntity update(long l, TimeEntry expected) {
-
-        TimeEntry t = this.localRepo.find(l);
-        if(t != null){
-            return new ResponseEntity(this.localRepo.update(l, expected), HttpStatus.OK);
+        TimeEntry temp = this.localRepo.update(l, expected);
+        if(temp == null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(temp, HttpStatus.OK);
     }
 
     public ResponseEntity<TimeEntry> delete(long l) {
