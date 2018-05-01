@@ -8,4 +8,15 @@ public class TimeEntry {
     private LocalDate date;
     private int hours;
 
+    public TimeEntry(){
+
+    }
+
+    public TimeEntry(long in0, long in1, long in2, LocalDate dateIn, int intIn){
+
+    }
+
+    public Long getId() {
+        return null;
+    }
 }
