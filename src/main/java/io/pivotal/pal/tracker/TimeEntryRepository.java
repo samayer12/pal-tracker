@@ -1,11 +1,12 @@
 package io.pivotal.pal.tracker;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface TimeEntryRepository {
 
-    List<TimeEntry> localRepo = new ArrayList<>();
+    Map<Long, TimeEntry> localRepo = new HashMap<>();
 
     TimeEntry create(TimeEntry any);
 
@@ -17,7 +18,7 @@ public interface TimeEntryRepository {
 
     List<TimeEntry> list();
 
-    void setLocalRepo(List<TimeEntry> localRepo);
+    void setLocalRepo(Map<Long, TimeEntry> localRepo);
 }
 
 //

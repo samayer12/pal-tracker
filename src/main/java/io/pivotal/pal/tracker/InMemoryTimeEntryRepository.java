@@ -1,41 +1,38 @@
 package io.pivotal.pal.tracker;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryTimeEntryRepository implements TimeEntryRepository{
 
-    List<TimeEntry> timeEntryList = new ArrayList<>();
+    Map<Long, TimeEntry> timeEntryList = new HashMap<>();
 
     public TimeEntry create(TimeEntry timeEntry) {
-        timeEntryList.add(timeEntry);
+        timeEntryList.put(timeEntry.getId(), timeEntry);
         return timeEntry;
     }
 
     public TimeEntry find(long id) {
-        for (TimeEntry t : this.timeEntryList) {
-            if(t.getId() == id){
-                return t;
-            }
-        }
-        return null;
+        TimeEntry local = this.timeEntryList.get(id);
+        return local;
     }
 
     public TimeEntry update(long id, TimeEntry timeEntry) {
         TimeEntry temp = this.find(id);
 
         if(temp != null) {
-            int index = this.timeEntryList.indexOf(temp);
-            this.timeEntryList.set(index, timeEntry);
-            return this.timeEntryList.get(index);
+            this.timeEntryList.put(temp.getId(), timeEntry);
+            return this.timeEntryList.get(temp.getId());
         }
         return null;
     }
 
     public void delete(long id){
         TimeEntry temp = this.find(id);
-        int index = this.timeEntryList.indexOf(temp);
-        this.timeEntryList.remove(index);
+        this.timeEntryList.remove(temp.getId());
     }
 
     @Override
@@ -53,32 +50,21 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository{
         return getTimeEntryList() != null ? getTimeEntryList().hashCode() : 0;
     }
 
-    public TimeEntry update(Long id, TimeEntry timeEntry) {
-        TimeEntry temp = this.find(id);
-        int index = this.timeEntryList.indexOf(temp);
-        this.timeEntryList.set(index, timeEntry);
-        return this.timeEntryList.get(index);
-    }
-
-    public void delete(Long id) {
-        TimeEntry temp = this.find(id);
-        int index = this.timeEntryList.indexOf(temp);
-        this.timeEntryList.remove(index);
-    }
 
     //<editor-fold desc="Getters & Setters">
 
 
-    public List<TimeEntry> getTimeEntryList() {
+    public Map<Long, TimeEntry> getTimeEntryList() {
         return timeEntryList;
     }
 
-    public void setLocalRepo(List<TimeEntry> timeEntryList) {
+    public void setLocalRepo(Map<Long, TimeEntry> timeEntryList) {
         this.timeEntryList = timeEntryList;
     }
 
+    @Override
     public List<TimeEntry> list() {
-        return this.timeEntryList;
+        return new ArrayList<>(this.timeEntryList.values());
     }
 
 
