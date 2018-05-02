@@ -11,6 +11,12 @@ public class TimeEntry {
     public TimeEntry(){
 
     }
+    public TimeEntry(long in1, long in2, LocalDate dateIn, int intIn){
+        this.projectId = in1;
+        this.userId = in2;
+        this.date = dateIn;
+        this.hours = intIn;
+    }
 
     public TimeEntry(long in0, long in1, long in2, LocalDate dateIn, int intIn){
         this.id = in0;

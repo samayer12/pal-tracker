@@ -46,6 +46,7 @@ public class JdbcTimeEntryRepositoryTest {
         assertThat(foundEntry.get("user_id")).isEqualTo(321L);
         assertThat(((Date)foundEntry.get("date")).toLocalDate()).isEqualTo(LocalDate.parse("2017-01-09"));
         assertThat(foundEntry.get("hours")).isEqualTo(8);
+
     }
 
     @Test
